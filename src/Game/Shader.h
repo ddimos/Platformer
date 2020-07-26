@@ -2,7 +2,6 @@
 
 #include <string>
 
-#include <Extern/glad/glad.h>
 #include <Extern/glm/glm.hpp>
 #include <Extern/glm/gtc/type_ptr.hpp>
 

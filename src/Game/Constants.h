@@ -1,6 +1,7 @@
 #pragma once
+#include <string>
 
-// The width of the screen
+std::string const GAME_NAME = "Platformer";
+
 unsigned int const SCREEN_WIDTH = 800u;
-// The height of the screen
 unsigned int const SCREEN_HEIGHT = 600u;

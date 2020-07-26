@@ -18,14 +18,14 @@ enum GameState {
 class Game
 {
 public:
-    static Game * g_Game;
+    //static Game * g_Game;
     
     Game(unsigned int width, unsigned int height);
     ~Game();
     
     // game state
     GameState               State;	
-    bool                    Keys[1024];
+    
     unsigned int            Width, Height;
     // constructor/destructor
     // initialize game state (load all shaders/textures/levels)

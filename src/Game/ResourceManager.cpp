@@ -4,47 +4,57 @@
 #include <sstream>
 #include <fstream>
 
+#include <Extern/glad/glad.h>
+
 #define STB_IMAGE_IMPLEMENTATION
 #include "Extern/stb/stb_image.h"
 
-// Instantiate static variables
-std::map<std::string, Texture2D>    ResourceManager::Textures;
-std::map<std::string, Shader>       ResourceManager::Shaders;
+std::unordered_map<std::string, Texture2D>    ResourceManager::ms_Textures;
+std::unordered_map<std::string, Shader>       ResourceManager::ms_Shaders;
 
-
-Shader ResourceManager::LoadShader(const char *vShaderFile, const char *fShaderFile, const char *gShaderFile, std::string name)
+Shader ResourceManager::LoadShader(std::string const& vShaderFile,
+                                std::string const& fShaderFile,
+                                std::string const& gShaderFile, 
+                                std::string const& name)
 {
-    Shaders[name] = loadShaderFromFile(vShaderFile, fShaderFile, gShaderFile);
-    return Shaders[name];
+    ms_Shaders[name] =
+     LoadShaderFromFile(vShaderFile.c_str(), fShaderFile.c_str(), gShaderFile.c_str());
+    return ms_Shaders[name];
 }
 
-Shader ResourceManager::GetShader(std::string name)
+Shader ResourceManager::GetShader(std::string const& name)
 {
-    return Shaders[name];
+    return ms_Shaders[name];
 }
 
-Texture2D ResourceManager::LoadTexture(const char *file, bool alpha, std::string name)
+Texture2D ResourceManager::LoadTexture(std::string const& file,
+                                 bool alpha,
+                                 std::string const& name)
 {
-    Textures[name] = loadTextureFromFile(file, alpha);
-    return Textures[name];
+    ms_Textures[name] = LoadTextureFromFile(file.c_str(), alpha);
+    return ms_Textures[name];
 }
 
-Texture2D ResourceManager::GetTexture(std::string name)
+Texture2D ResourceManager::GetTexture(std::string const& name)
 {
-    return Textures[name];
+    return ms_Textures[name];
 }
 
 void ResourceManager::Clear()
-{
-    // (properly) delete all shaders	
-    for (auto iter : Shaders)
+{	
+    for (auto const& iter : ms_Shaders)
+    {
         glDeleteProgram(iter.second.ID);
-    // (properly) delete all textures
-    for (auto iter : Textures)
+    }
+    for (auto const& iter : ms_Textures)
+    {
         glDeleteTextures(1, &iter.second.ID);
+    }
+    ms_Shaders.clear();
+    ms_Textures.clear();
 }
 
-Shader ResourceManager::loadShaderFromFile(const char *vShaderFile, const char *fShaderFile, const char *gShaderFile)
+Shader ResourceManager::LoadShaderFromFile(const char *vShaderFile, const char *fShaderFile, const char *gShaderFile)
 {
     // 1. retrieve the vertex/fragment source code from filePath
     std::string vertexCode;
@@ -88,7 +98,7 @@ Shader ResourceManager::loadShaderFromFile(const char *vShaderFile, const char *
     return shader;
 }
 
-Texture2D ResourceManager::loadTextureFromFile(const char *file, bool alpha)
+Texture2D ResourceManager::LoadTextureFromFile(const char *file, bool alpha)
 {
     // create texture object
     Texture2D texture;

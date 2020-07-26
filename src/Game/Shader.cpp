@@ -1,5 +1,5 @@
 #include "Game/Shader.h"
-
+#include <Extern/glad/glad.h>
 #include <iostream>
 
 Shader &Shader::Use()
