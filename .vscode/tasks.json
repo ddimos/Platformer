@@ -17,7 +17,7 @@
                 "kind": "build",
                 "isDefault": true
             },
-            "command": "cd ./build && make && ./main"
+            "command": "cd ./build && make && ./Platformer"
         },
         {
             "label": "Build CMake",
