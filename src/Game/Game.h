@@ -4,6 +4,7 @@
 //#include <GLFW/glfw3.h>
 
 #include "Game/Constants.h"
+#include "Game/SpriteRenderer.h"
 
 // Represents the current state of the game
 enum GameState {

@@ -12,30 +12,32 @@
 std::unordered_map<std::string, Texture2D>    ResourceManager::ms_Textures;
 std::unordered_map<std::string, Shader>       ResourceManager::ms_Shaders;
 
-Shader ResourceManager::LoadShader(std::string const& vShaderFile,
-                                std::string const& fShaderFile,
-                                std::string const& gShaderFile, 
-                                std::string const& name)
+Shader& ResourceManager::LoadShader(
+    std::string const& vShaderFile,
+    std::string const& fShaderFile,
+    std::string const& gShaderFile, 
+    std::string const& name)
 {
     ms_Shaders[name] =
-     LoadShaderFromFile(vShaderFile.c_str(), fShaderFile.c_str(), gShaderFile.c_str());
+      LoadShaderFromFile(vShaderFile, fShaderFile, gShaderFile);
     return ms_Shaders[name];
 }
 
-Shader ResourceManager::GetShader(std::string const& name)
+Shader& ResourceManager::GetShader(std::string const& name)
 {
     return ms_Shaders[name];
 }
 
-Texture2D ResourceManager::LoadTexture(std::string const& file,
-                                 bool alpha,
-                                 std::string const& name)
+Texture2D& ResourceManager::LoadTexture(
+    std::string const& file,
+    bool alpha,
+    std::string const& name)
 {
-    ms_Textures[name] = LoadTextureFromFile(file.c_str(), alpha);
+    ms_Textures[name] = LoadTextureFromFile(file, alpha);
     return ms_Textures[name];
 }
 
-Texture2D ResourceManager::GetTexture(std::string const& name)
+Texture2D& ResourceManager::GetTexture(std::string const& name)
 {
     return ms_Textures[name];
 }
@@ -54,7 +56,10 @@ void ResourceManager::Clear()
     ms_Textures.clear();
 }
 
-Shader ResourceManager::LoadShaderFromFile(const char *vShaderFile, const char *fShaderFile, const char *gShaderFile)
+Shader ResourceManager::LoadShaderFromFile(
+    std::string const& vShaderFile, 
+    std::string const& fShaderFile, 
+    std::string const& gShaderFile)
 {
     // 1. retrieve the vertex/fragment source code from filePath
     std::string vertexCode;
@@ -76,7 +81,7 @@ Shader ResourceManager::LoadShaderFromFile(const char *vShaderFile, const char *
         vertexCode = vShaderStream.str();
         fragmentCode = fShaderStream.str();
         // if geometry shader path is present, also load a geometry shader
-        if (gShaderFile != nullptr)
+        if (gShaderFile != "")
         {
             std::ifstream geometryShaderFile(gShaderFile);
             std::stringstream gShaderStream;
@@ -94,11 +99,12 @@ Shader ResourceManager::LoadShaderFromFile(const char *vShaderFile, const char *
     const char *gShaderCode = geometryCode.c_str();
     // 2. now create shader object from source code
     Shader shader;
-    shader.Compile(vShaderCode, fShaderCode, gShaderFile != nullptr ? gShaderCode : nullptr);
+    shader.Compile(vShaderCode, fShaderCode,  gShaderFile == "" ? nullptr : gShaderCode);
     return shader;
 }
 
-Texture2D ResourceManager::LoadTextureFromFile(const char *file, bool alpha)
+Texture2D ResourceManager::LoadTextureFromFile(
+    std::string const& file, bool alpha)
 {
     // create texture object
     Texture2D texture;
@@ -109,7 +115,7 @@ Texture2D ResourceManager::LoadTextureFromFile(const char *file, bool alpha)
     }
     // load image
     int width, height, nrChannels;
-    unsigned char* data = stbi_load(file, &width, &height, &nrChannels, 0);
+    unsigned char* data = stbi_load(file.c_str(), &width, &height, &nrChannels, 0);
     // now generate texture
     texture.Generate(width, height, data);
     // and finally free image data
