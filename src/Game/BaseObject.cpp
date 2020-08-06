@@ -22,5 +22,5 @@ BaseObject::BaseObject( Vec2D pos,
 
 void BaseObject::Draw(SpriteRenderer& renderer)
 {
-    renderer.DrawSprite(m_Sprite, m_Position, m_Size, m_Rotation, m_Color);
+    renderer.DrawSprite(m_Texture, m_Position, m_Size, m_Rotation, m_Color);
 }

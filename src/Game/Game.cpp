@@ -1,7 +1,12 @@
 #include "Game/Game.h"
 #include "Game/ResourceManager.h"
+#include "Game/Input.h"
 
 SpriteRenderer  *Renderer;
+
+Vec2D PlayerPosition = 0.f;
+float PlayerSpeed = 50.f;
+Vec2D BrickPosition = 300.f;
 
 Game::Game(unsigned int width, unsigned int height) 
     : State(GAME_ACTIVE), Width(width), Height(height)
@@ -25,7 +30,9 @@ void Game::Init()
     // set render-specific controls;
     Renderer = new SpriteRenderer(ResourceManager::GetShader("sprite"));
     // load textures
+    ResourceManager::LoadTexture("Data/textures/background.jpg", false, "background");
     ResourceManager::LoadTexture("Data/textures/p1_front.png", true, "player");
+    ResourceManager::LoadTexture("Data/textures/brickWall.png", true, "brickWall");
 }
 
 void Game::Update(float dt)
@@ -35,11 +42,34 @@ void Game::Update(float dt)
 
 void Game::ProcessInput(float dt)
 {
-   
+    if (Input::IsKeyPressed('A'))
+    {
+        PlayerPosition.x -= PlayerSpeed * dt;
+    }
+    else if (Input::IsKeyPressed('D'))
+    {
+        PlayerPosition.x += PlayerSpeed * dt;
+    }
+
+    if (Input::IsKeyPressed('W'))
+    {
+        PlayerPosition.y -= PlayerSpeed * dt;
+    }
+    else if (Input::IsKeyPressed('S'))
+    {
+        PlayerPosition.y += PlayerSpeed * dt;
+    }    
 }
 
 void Game::Render()
 {
+    Renderer->DrawSprite(ResourceManager::GetTexture("background"), 
+            Vec2D(0.0f, 0.0f), Vec2D(this->Width, this->Height), 0.0f);
+
     Renderer->DrawSprite(ResourceManager::GetTexture("player"),
-        glm::vec2(200.0f, 200.0f), glm::vec2(300.0f, 400.0f), 45.0f, glm::vec3(1.0f, 1.0f, 0.0f));
+        PlayerPosition, Vec2D(100.f,50.0f), 0.0f, glm::vec3(1.0f, 1.0f, 0.0f));
+
+    Renderer->DrawSprite(ResourceManager::GetTexture("brickWall"),
+        BrickPosition, Vec2D(100.f,50.0f), 0.0f);
+    
 }
