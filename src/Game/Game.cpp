@@ -2,6 +2,7 @@
 #include "Game/ResourceManager.h"
 #include "Game/Input/Input.h"
 #include "Game/Render/SpriteRenderer.h"
+#include "Game/Base/BaseObject.h"
 
 SpriteRenderer  *Renderer;
 
@@ -34,32 +35,33 @@ void Game::Init()
     ResourceManager::LoadTexture("Data/textures/background.jpg", false, "background");
     ResourceManager::LoadTexture("Data/textures/p1_front.png", true, "player");
     ResourceManager::LoadTexture("Data/textures/brickWall.png", true, "brickWall");
+
+    m_Objects.push_back(std::make_unique<BaseObject>(
+        PL_MATH::Vec2D{50.0f},
+        PL_MATH::Vec2D{300.0f},
+        PL_MATH::Vec2D{0.0f},
+        0.0f,
+        ResourceManager::GetTexture("brickWall")));
+
+    m_Objects.push_back(std::make_unique<Player>(
+        PL_MATH::Vec2D{50.0f},
+        PL_MATH::Vec2D{0.0f},
+        PL_MATH::Vec2D{20.0f},
+        0.0f,
+        ResourceManager::GetTexture("player")));
 }
 
 void Game::Update(float dt)
 {
+    for (auto& obj : m_Objects)
+    {
+        obj->Update(dt);
+    }
     
 }
 
 void Game::ProcessInput(float dt)
-{
-    if (Input::IsKeyPressed('A'))
-    {
-        PlayerPosition.x -= PlayerSpeed * dt;
-    }
-    else if (Input::IsKeyPressed('D'))
-    {
-        PlayerPosition.x += PlayerSpeed * dt;
-    }
-
-    if (Input::IsKeyPressed('W'))
-    {
-        PlayerPosition.y -= PlayerSpeed * dt;
-    }
-    else if (Input::IsKeyPressed('S'))
-    {
-        PlayerPosition.y += PlayerSpeed * dt;
-    }    
+{  
 }
 
 void Game::Render()
@@ -67,10 +69,8 @@ void Game::Render()
     Renderer->DrawSprite(ResourceManager::GetTexture("background"), 
             PL_MATH::Vec2D(0.0f, 0.0f), PL_MATH::Vec2D(this->Width, this->Height), 0.0f);
 
-    Renderer->DrawSprite(ResourceManager::GetTexture("player"),
-        PlayerPosition, PL_MATH::Vec2D(100.f,50.0f), 0.0f, glm::vec3(1.0f, 1.0f, 0.0f));
-
-    Renderer->DrawSprite(ResourceManager::GetTexture("brickWall"),
-        BrickPosition, PL_MATH::Vec2D(100.f,50.0f), 0.0f);
-    
+    for (auto& obj : m_Objects)
+    {
+        obj->Draw(*Renderer);
+    }
 }

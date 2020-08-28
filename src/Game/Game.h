@@ -1,5 +1,11 @@
 #pragma once
+
+#include <vector>
+#include <memory>
+
 #include "Constants.h"
+
+class BaseObject;
 
 // Represents the current state of the game
 enum GameState {
@@ -13,6 +19,9 @@ enum GameState {
 // easy access to each of the components and manageability.
 class Game
 {
+private:
+    std::vector<std::unique_ptr<BaseObject>> m_Objects;
+    
 public:
     //static Game * g_Game;
     

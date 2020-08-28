@@ -8,7 +8,7 @@
 
 class BaseObject
 {
-private:
+protected:
     PL_MATH::Vec2D m_Size;
     PL_MATH::Vec2D m_Position;
     PL_MATH::Vec2D m_Velocity;
@@ -24,9 +24,11 @@ public:
     BaseObject();
     BaseObject(PL_MATH::Vec2D pos,
                PL_MATH::Vec2D size,
-               Texture2D sprite,
+               PL_MATH::Vec2D vel,
+               float rot,
+               Texture2D tex,
                glm::vec3 color = glm::vec3(1.0f),
-               PL_MATH::Vec2D vel = PL_MATH::Vec2D(0.0f, 0.0f));
+               bool isStatic = false);
 
     virtual void Draw(SpriteRenderer& renderer);
     virtual void Update(float dt) {}
@@ -47,4 +49,18 @@ public:
     bool const isDestroyed() const {return m_IsDestroyed;}
     void SetIsDestroyed(bool isDestroyed) {m_IsDestroyed = isDestroyed;}
 
+};
+
+class Player : public BaseObject
+{
+public:
+    Player( PL_MATH::Vec2D size,
+            PL_MATH::Vec2D pos,
+            PL_MATH::Vec2D vel,
+            float rot,
+            Texture2D texture,
+            glm::vec3 color = glm::vec3(1.0f),
+            bool isStatic = false);
+    
+    void Update(float dt) override;
 };
