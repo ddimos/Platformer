@@ -1,4 +1,4 @@
-#include "Game/Input.h"
+#include "Input.h"
 
 bool Input::ms_Keys[1024] = {};
 

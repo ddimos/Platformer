@@ -1,12 +1,13 @@
 #include "Game/Game.h"
 #include "Game/ResourceManager.h"
-#include "Game/Input.h"
+#include "Game/Input/Input.h"
+#include "Game/Render/SpriteRenderer.h"
 
 SpriteRenderer  *Renderer;
 
-Vec2D PlayerPosition = 0.f;
+PL_MATH::Vec2D PlayerPosition = 0.f;
 float PlayerSpeed = 50.f;
-Vec2D BrickPosition = 300.f;
+PL_MATH::Vec2D BrickPosition = 300.f;
 
 Game::Game(unsigned int width, unsigned int height) 
     : State(GAME_ACTIVE), Width(width), Height(height)
@@ -64,12 +65,12 @@ void Game::ProcessInput(float dt)
 void Game::Render()
 {
     Renderer->DrawSprite(ResourceManager::GetTexture("background"), 
-            Vec2D(0.0f, 0.0f), Vec2D(this->Width, this->Height), 0.0f);
+            PL_MATH::Vec2D(0.0f, 0.0f), PL_MATH::Vec2D(this->Width, this->Height), 0.0f);
 
     Renderer->DrawSprite(ResourceManager::GetTexture("player"),
-        PlayerPosition, Vec2D(100.f,50.0f), 0.0f, glm::vec3(1.0f, 1.0f, 0.0f));
+        PlayerPosition, PL_MATH::Vec2D(100.f,50.0f), 0.0f, glm::vec3(1.0f, 1.0f, 0.0f));
 
     Renderer->DrawSprite(ResourceManager::GetTexture("brickWall"),
-        BrickPosition, Vec2D(100.f,50.0f), 0.0f);
+        BrickPosition, PL_MATH::Vec2D(100.f,50.0f), 0.0f);
     
 }

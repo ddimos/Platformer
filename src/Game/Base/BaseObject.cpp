@@ -1,5 +1,7 @@
 #include "BaseObject.h"
 
+using namespace PL_MATH;
+
 BaseObject::BaseObject()
   :
   m_Size{1.0f}

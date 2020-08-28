@@ -1,6 +1,8 @@
 #include "SpriteRenderer.h"
 #include <Extern/glad/glad.h>
 
+using namespace PL_MATH;
+
 SpriteRenderer::SpriteRenderer(Shader &shader)
   :
   m_Shader(shader)

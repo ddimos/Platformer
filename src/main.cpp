@@ -3,7 +3,7 @@
 
 #include "Game/Game.h"
 #include "Game/ResourceManager.h"
-#include "Game/Input.h"
+#include "Game/Input/Input.h"
 #include <iostream>
 
 // GLFW function declerations

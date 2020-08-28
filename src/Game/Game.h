@@ -1,10 +1,5 @@
 #pragma once
-
-//#include <Extern/glad/glad.h>
-//#include <GLFW/glfw3.h>
-
-#include "Game/Constants.h"
-#include "Game/SpriteRenderer.h"
+#include "Constants.h"
 
 // Represents the current state of the game
 enum GameState {

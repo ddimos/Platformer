@@ -3,8 +3,8 @@
 #include <unordered_map>
 #include <string>
 
-#include "Game/Texture.h"
-#include "Game/Shader.h"
+#include "Game/Render/Texture.h"
+#include "Game/Render/Shader.h"
 
 class ResourceManager
 {
