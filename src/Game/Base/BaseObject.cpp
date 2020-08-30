@@ -1,7 +1,10 @@
 #include "BaseObject.h"
 #include "Game/Input/Input.h"
 
+#include "Game/Phys/Body.h"
+
 using namespace PL_MATH;
+using namespace PL_PHYS;
 
 BaseObject::BaseObject()
     :
@@ -21,16 +24,16 @@ BaseObject::BaseObject( Vec2D size,
                         Vec2D vel,
                         float rot,
                         Texture2D texture,
-                        glm::vec3 color,
-                        bool isStatic)
+                        bool isStatic,
+                        glm::vec3 color)
     :
      m_Size{size}
     ,m_Position{pos}
     ,m_Velocity{vel}
     ,m_Rotation{rot}
     ,m_Texture{texture}
-    ,m_Color{color}
     ,m_IsStatic{isStatic}
+    ,m_Color{color}
     ,m_IsDestroyed{false}
 {
 
@@ -41,15 +44,38 @@ void BaseObject::Draw(SpriteRenderer& renderer)
     renderer.DrawSprite(m_Texture, m_Position, m_Size, m_Rotation, m_Color);
 }
 
+// temporary
+void BaseObject::Update(float dt)
+{
+    if (m_Body)
+    {
+        m_Position = m_Body->position;
+        m_Velocity = m_Body->velocity;
+        m_Rotation = m_Body->rotation;
+    }
+  
+}
+
+void BaseObject::SetBody(PL_PHYS::Body* body)
+{
+    assert(body);
+    m_Body = body;
+    m_Body->position = m_Position;
+    m_Body->velocity = m_Velocity;
+    m_Body->rotation = m_Rotation;
+    m_Body->isStatic = m_IsStatic;
+}
+
+
 Player::Player(PL_MATH::Vec2D size,
                PL_MATH::Vec2D pos,
                PL_MATH::Vec2D vel,
                float rot,
                Texture2D texture,
-               glm::vec3 color,
-               bool isStatic)
+               bool isStatic,
+               glm::vec3 color)
                :
-               BaseObject(size, pos, vel, rot, texture, color, isStatic)
+               BaseObject(size, pos, vel, rot, texture, isStatic, color)
 {
 
 }
@@ -58,19 +84,21 @@ void Player::Update(float dt)
 {
     if (Input::IsKeyPressed('A'))
     {
-        m_Position.x -= m_Velocity.x * dt;
+        m_Body->ApplyForceToCenter({ -1.0f, 0.0f });
     }
     else if (Input::IsKeyPressed('D'))
-    {
-        m_Position.x += m_Velocity.x * dt;
+    { 
+        m_Body->ApplyForceToCenter({ 1.0f, 0.0f });
     }
 
     if (Input::IsKeyPressed('W'))
     {
-        m_Position.y -= m_Velocity.y * dt;
+        m_Body->ApplyForceToCenter({ 0.0f, -1.0f });
     }
     else if (Input::IsKeyPressed('S'))
     {
-        m_Position.y += m_Velocity.y * dt;
-    }    
+        m_Body->ApplyForceToCenter({ 0.0f, 1.0f });
+    }
+
+    BaseObject::Update(dt);    
 }

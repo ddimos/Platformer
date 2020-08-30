@@ -6,6 +6,11 @@
 
 #include <Extern/glm/glm.hpp>
 
+namespace PL_PHYS
+{
+class Body;
+} // PL_PHYS
+
 class BaseObject
 {
 protected:
@@ -20,6 +25,8 @@ protected:
     bool m_IsStatic;
     bool m_IsDestroyed;
 
+    PL_PHYS::Body* m_Body;
+
 public:
     BaseObject();
     BaseObject(PL_MATH::Vec2D pos,
@@ -27,11 +34,11 @@ public:
                PL_MATH::Vec2D vel,
                float rot,
                Texture2D tex,
-               glm::vec3 color = glm::vec3(1.0f),
-               bool isStatic = false);
+               bool isStatic = false,
+               glm::vec3 color = glm::vec3(1.0f));
 
     virtual void Draw(SpriteRenderer& renderer);
-    virtual void Update(float dt) {}
+    virtual void Update(float dt);
 
 public:
     PL_MATH::Vec2D const& GetSize() const {return m_Size;}
@@ -49,6 +56,8 @@ public:
     bool const isDestroyed() const {return m_IsDestroyed;}
     void SetIsDestroyed(bool isDestroyed) {m_IsDestroyed = isDestroyed;}
 
+    void SetBody(PL_PHYS::Body* body);
+
 };
 
 class Player : public BaseObject
@@ -59,8 +68,8 @@ public:
             PL_MATH::Vec2D vel,
             float rot,
             Texture2D texture,
-            glm::vec3 color = glm::vec3(1.0f),
-            bool isStatic = false);
+            bool isStatic = false,
+            glm::vec3 color = glm::vec3(1.0f));
     
     void Update(float dt) override;
 };
