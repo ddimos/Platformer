@@ -7,6 +7,13 @@ namespace PL_PHYS
 class Body
 {
 public:
+    enum class PhysType
+    {
+        STATIC = 1,
+        KINEMATIC,
+        DYNAMIC
+    };
+
     PL_MATH::Vec2D position;
     PL_MATH::Vec2D velocity;
     PL_MATH::Vec2D force;
@@ -17,14 +24,15 @@ public:
     float mass;
     float invMass;
 
-    bool isStatic;
-
 //  float angularVelocity;
 //  float torque;
 
 //  float staticFriction;
 //  float dynamicFriction;
 //  float restitution;
+
+    PhysType type = PhysType::DYNAMIC;
+    
 public:
     Body(/* args */);
     

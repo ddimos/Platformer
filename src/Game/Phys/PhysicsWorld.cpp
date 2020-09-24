@@ -20,7 +20,7 @@ void PhysicsWorld::Step()
 {
     for (auto& body : m_Bodies)
     {
-        if (!body->isStatic)
+        if (body->type == Body::PhysType::DYNAMIC)
         {
             body->ApplyForceToCenter(m_Gravity);
         }
@@ -40,7 +40,7 @@ void PhysicsWorld::Step()
 
 void PhysicsWorld::Integrate(Body* body)
 {
-    if (body->isStatic)
+    if (body->type == Body::PhysType::STATIC)
     {
         return;
     }

@@ -63,7 +63,10 @@ void BaseObject::SetBody(PL_PHYS::Body* body)
     m_Body->position = m_Position;
     m_Body->velocity = m_Velocity;
     m_Body->rotation = m_Rotation;
-    m_Body->isStatic = m_IsStatic;
+    if(m_IsStatic)
+    {
+        m_Body->type = Body::PhysType::STATIC;
+    }
 }
 
 

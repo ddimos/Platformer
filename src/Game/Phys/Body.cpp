@@ -11,7 +11,6 @@ Body::Body()
     ,rotation{0.0f}
     ,mass{1.0f}
     ,invMass{1.0f}
-    ,isStatic{false}
 {
 }
 
