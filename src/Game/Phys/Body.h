@@ -1,5 +1,6 @@
 #pragma once
 #include "Game/Math/Math.h"
+#include "Collision/Shape.h"
 
 namespace PL_PHYS
 {
@@ -32,6 +33,7 @@ public:
 //  float restitution;
 
     PhysType type = PhysType::DYNAMIC;
+    Shape shape;
     
 public:
     Body(/* args */);

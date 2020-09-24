@@ -46,6 +46,13 @@ void Game::Init()
         0.0f,
         ResourceManager::GetTexture("brickWall"),
         true));
+    m_Objects.push_back(std::make_unique<BaseObject>(
+        PL_MATH::Vec2D{50.0f},
+        PL_MATH::Vec2D{30.0f, 300.0f},
+        PL_MATH::Vec2D{0.0f},
+        0.0f,
+        ResourceManager::GetTexture("brickWall"),
+        true));
     m_Objects.push_back(std::make_unique<Player>(
         PL_MATH::Vec2D{50.0f},
         PL_MATH::Vec2D{0.0f},
@@ -54,6 +61,7 @@ void Game::Init()
         ResourceManager::GetTexture("player")));
     m_Objects[0]->SetBody(PhysWorld->AddBody());
     m_Objects[1]->SetBody(PhysWorld->AddBody());
+    m_Objects[2]->SetBody(PhysWorld->AddBody());
 }
 
 void Game::Update(float dt)
