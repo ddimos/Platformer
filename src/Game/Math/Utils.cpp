@@ -9,4 +9,9 @@ float Sqrt(float x)
     return std::sqrt(x);
 }
 
+float Max(float a, float b)
+{
+  return std::max(a, b);
+}
+
 } // PL_MATH

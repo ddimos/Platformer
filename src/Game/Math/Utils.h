@@ -8,6 +8,7 @@ const float PI = 3.141592741f;
 const float EPSILON = 0.0001f;
 
 float Sqrt(float x);
+float Max(float a, float b);
 
 inline float Pow2(float x)
 {
@@ -18,7 +19,7 @@ inline float Abs(float v)
 {
   return std::abs(v);
 }
-
+ 
 inline float Random(float l, float h)
 {
   float a = (float)rand( );
