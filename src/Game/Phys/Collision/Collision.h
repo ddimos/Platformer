@@ -8,7 +8,7 @@ struct CollisionPair;
 class Collision
 {
 public:
-    static bool AABBvsAABB(CollisionPair const&);
+    static bool AABBvsAABB(CollisionPair &);
 };
 
 }

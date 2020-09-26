@@ -70,7 +70,7 @@ void BaseObject::SetBody(PL_PHYS::Body* body)
         m_Body->type = Body::PhysType::STATIC;
     }
 }
-
+#include <iostream>
 
 Player::Player(PL_MATH::Vec2D size,
                PL_MATH::Vec2D pos,
@@ -106,4 +106,5 @@ void Player::Update(float dt)
     }
 
     BaseObject::Update(dt);    
+//std::cout << "X: " << m_Position.x << " Y: " << m_Position.y << std::endl;
 }

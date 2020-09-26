@@ -13,6 +13,8 @@ struct CollisionPair
     PL_MATH::Vec2D  normal = {0.0f};
 
     bool IsCollide();
+    void ResolveCollision();
+    void CorrectPosition();
 };
 
 }

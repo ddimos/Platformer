@@ -30,6 +30,12 @@ void PhysicsWorld::Step()
     {
         for (size_t j = i + 1; j < m_Bodies.size(); j++)
         {
+            if ( m_Bodies[i]->type == Body::PhysType::STATIC
+              && m_Bodies[j]->type == Body::PhysType::STATIC)
+            {
+                continue;
+            }
+            
             CollisionPair pair;
             pair.A = m_Bodies[i].get();
             pair.B = m_Bodies[j].get();
@@ -41,12 +47,33 @@ void PhysicsWorld::Step()
 
         }
     }
-std::cout<<m_Contacts.size() << std::endl;    
+
+    for (auto& pair : m_Contacts)
+    {
+        for (size_t i = 0; i < 10; i++)
+        {
+        pair.ResolveCollision();
+            /* code */
+        }
+        
+    }
+    
+
+    if (false && m_Contacts.size())
+    {
+        auto n = m_Contacts[0].normal;
+std::cout<<m_Contacts[0].penetration << std::endl;  
+std::cout<<n.x << " " << n.y << std::endl; 
+    }
     for (auto& body : m_Bodies)
     {
         Integrate(body.get());
     }
 
+    for (auto& pair : m_Contacts)
+    {
+        pair.CorrectPosition();
+    }
 
     for (auto& body : m_Bodies)
     {
