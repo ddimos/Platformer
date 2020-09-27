@@ -46,10 +46,12 @@ void CollisionPair::ResolveCollision()
     if (A->type == Body::PhysType::DYNAMIC)
     {
         A->velocity -= A->invMass * impulse;
+        A->velocity *= 0.999f;
     }
     if (B->type == Body::PhysType::DYNAMIC)
     {
         B->velocity += A->invMass * impulse;
+        B->velocity *= 0.999f;
     }
 }
 

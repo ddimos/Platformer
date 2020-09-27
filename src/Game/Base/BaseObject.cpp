@@ -89,20 +89,20 @@ void Player::Update(float dt)
 {
     if (Input::IsKeyPressed('A'))
     {
-        m_Body->ApplyForceToCenter({ -1.0f, 0.0f });
+        m_Body->ApplyForceToCenter({ -3.0f, 0.0f });
     }
     else if (Input::IsKeyPressed('D'))
     { 
-        m_Body->ApplyForceToCenter({ 1.0f, 0.0f });
+        m_Body->ApplyForceToCenter({ 3.0f, 0.0f });
     }
 
     if (Input::IsKeyPressed('W'))
     {
-        m_Body->ApplyForceToCenter({ 0.0f, -1.0f });
+        m_Body->ApplyForceToCenter({ 0.0f, -3.0f });
     }
     else if (Input::IsKeyPressed('S'))
     {
-        m_Body->ApplyForceToCenter({ 0.0f, 1.0f });
+        m_Body->ApplyForceToCenter({ 0.0f, 3.0f });
     }
 
     BaseObject::Update(dt);    
