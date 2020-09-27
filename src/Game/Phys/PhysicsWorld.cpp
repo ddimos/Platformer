@@ -1,6 +1,6 @@
 #include "PhysicsWorld.h"
 #include "Game/Phys/Body.h"
-#include <iostream>
+
 namespace PL_PHYS
 {
 
@@ -58,13 +58,6 @@ void PhysicsWorld::Step()
         
     }
     
-
-    if (false && m_Contacts.size())
-    {
-        auto n = m_Contacts[0].normal;
-std::cout<<m_Contacts[0].penetration << std::endl;  
-std::cout<<n.x << " " << n.y << std::endl; 
-    }
     for (auto& body : m_Bodies)
     {
         Integrate(body.get());
